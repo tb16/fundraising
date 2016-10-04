@@ -27,7 +27,9 @@ def unique_data(database_name, table_name):
         good = sorted(items, key=lambda x: x['download_time'])[-1]
         keep.append(good)
     df = pd.DataFrame(keep)
-
+    print df.story[0]
+    df2 = df[df.story.notnull()]
+    # print df2.head()
     return df
 
 
@@ -69,6 +71,9 @@ def num_people(status):
 
 if __name__ == '__main__':
     df = unique_data('gfm_database', 'campaigns')
+
+    # df = df_all.iloc[1:, :]
+    # print df.head()
     # set the category from category url
     cond = df.category.isnull() & df.category_url
     df.category[cond] = df.category_url[cond].map(set_category)
@@ -86,4 +91,4 @@ if __name__ == '__main__':
     df['people'] = df.status.map(num_people)
     drop_list = ['_id','category_url','date','download_time', 'money', 'share', 'status']
     df2 = df.drop(drop_list, axis = 1)
-    df2.to_csv('../data/preprocessed.csv', encoding='utf-8')
+    df2.to_csv('../data/preprocessed2.csv', encoding='utf-8')
