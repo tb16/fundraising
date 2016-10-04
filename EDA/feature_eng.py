@@ -18,7 +18,9 @@ def featured(filename):
 
     df3['percentage'] = [round(x/y, 2) for (x, y) in izip(df3.raised, df3.goal)]
     df3['average_contribution'] = [int(x/y) for (x, y) in izip(df3.raised, df3.people)]
-    df3.to_csv('../data/featured_data.csv')
+    df4 = df3[(df3.average_contribution > 0) & (df3.goal>10) & (df3.percentage < 100) \
+    & (df3.average_contribution < 5000)]
+    df4.to_csv('../data/featured_data.csv')
 
 if __name__ == '__main__':
     featured('../data/preprocessed.csv')

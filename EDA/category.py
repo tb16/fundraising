@@ -1,0 +1,21 @@
+
+category_list = [\
+'Medical',
+'Memorials',
+'Education',
+'Emergencies',
+'Charity',
+'Sports',
+'Competitions',
+'Animals',
+'Volunteer',
+'Creative',
+'Community',
+'Business',
+'Events',
+'Wishes',
+'Faith',
+'Travel',
+'Family',
+'Other',
+]
