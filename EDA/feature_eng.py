@@ -17,8 +17,8 @@ def featured(filename):
     # calculate characters and words length in title and story
     df2['title_length']  = df2.title.map(lambda x: len(x))
     df2['story_length'] = df2.story.map(lambda x: len(x))
-    df2['word_count_title'] = df2.title.map(lambda x: count_length.count_words)
-    df2['word_count_story'] = df2.story.map(lambda x: count_length.count_words)
+    df2['word_count_title'] = df2.title.map(lambda x: count_length.count_words(x))
+    df2['word_count_story'] = df2.story.map(lambda x: count_length.count_words(x))
     df2['sentence_count_story'] = df2.story.map(lambda x: count_length.count_sentences)
     df3 = df2.drop(['Unnamed: 0', 'index'], axis = 1)
 
