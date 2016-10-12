@@ -46,10 +46,9 @@ def get_success_index(df):
 
 def similar_campaign(vector, vectorizer, sparse_mat):
     '''
-    Finds the similar array to the given campaign. top 3 campaigns
-    Sorts and returns indices for the documents with the
-    highest cosine similarity scores.
-
+    Finds the similar success story to the given campaign. returns top 3 campaigns
+    and keywords. similarity from cosine similarity with tfidf vectors. top words
+    from tfidf values of a story
     '''
 
 
@@ -65,8 +64,9 @@ def similar_campaign(vector, vectorizer, sparse_mat):
     for idx in success_indices[:3]:
         keywords_indices = np.argsort(sparse_mat[idx].toarray()).flatten()[-1:-11:-1]
         keywords.append(' '.join(feature_names[keywords_indices]))
-
-    return df.iloc[success_indices[:3]], keywords
+    output_df = df.iloc[success_indices[:3]]
+    output_df['keywords'] = keywords
+    return output_df[['category', 'days','title', 'story', 'friends','shares', 'goal', 'percentage', 'keywords']]
 
 
 if __name__ == '__main__':
