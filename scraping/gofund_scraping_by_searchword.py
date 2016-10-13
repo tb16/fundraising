@@ -160,9 +160,7 @@ if __name__ == '__main__':
                     import traceback
                     traceback.print_exc()
                     continue
-                break
-            break
-        break
+                
 
 #Conversion of datetime from timestamp
 '''import datetime
