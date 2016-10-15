@@ -7,6 +7,10 @@ from sklearn.metrics.pairwise import linear_kernel
 from tokenizer import tokenize
 
 
+'''
+campaign recommendation using cosine similarity of vectorised stories.
+'''
+
 df = pd.read_csv('../data/featured_data.csv')
 
 def bag_of_words(df):
@@ -38,7 +42,7 @@ def pickle_vec(vectorizer, sparse):
 def get_success_index(df):
     '''
     returns the indices of successsful campaigns from the dataframe
-    didn't use it
+    
     '''
     indices = df[df.percentage>=0.5].index.tolist()
     return np.array(indices)

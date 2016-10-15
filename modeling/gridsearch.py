@@ -20,7 +20,7 @@ def gridsearch_randomforest(X, y):
               'max_features': [20, 30, 40, 57]
              }
     gs_cv = GridSearchCV(rf, param_grid, scoring = 'accuracy').fit(X,y)
-    return gs_cv.best_params_, gs_cv.best_estimator_
+    return gs_cv.best_params_
 
 
 def gridsearch_gradboost(X, y):
@@ -79,6 +79,7 @@ def gridsearch(X, y):
 def pickle_model(X, y):
     '''
     saving pickle file for models RandomForest and GradientBoosting
+    Input: X: feature matrix, y: array of output value 
     '''
     rf = RandomForestClassifier(max_features= 40, n_estimators= 100, max_depth= 5, \
     min_samples_leaf= 5, n_jobs = -1).fit(X, y)

@@ -129,7 +129,8 @@ def featurizing(df):
 
     vector = vectorizer.transform(df.story)
     nmf_topics = nmf_model.transform(vector)
-    df2 = pd.DataFrame(nmf_topics)
+    col_name = ['nmf_topic_' + str(i) for i in xrange(0,10)]
+    df2 = pd.DataFrame(nmf_topics, columns = col_name)
     df = pd.concat((df, df2), axis = 1)
     df['mnb_probs'] = mnb_model.predict_proba(vector)[:,1]
     y = int(df.percentage[0] > 0.5)
@@ -143,4 +144,3 @@ def featurizing(df):
 if __name__ == '__main__':
     df = get_data(url)
     X, y, df = featurizing(df)
-    

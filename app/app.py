@@ -14,21 +14,24 @@ with open('../data/randomforest.pkl') as f:
 # ================================================
 @app.route('/')
 def index():
-    return '''
-    <form action="/predict" method='POST' >
-        <input type="text" name="user_input" />
-        <input type="submit" />
-    </form>
-    '''
+    return render_template('index.html')
 
+@app.route('/form')
+def show_form():
+    return render_template('form.html')
 
 # Once submit is hit, pass info into model, return results.
 # ================================================
 @app.route('/predict', methods=['POST'])
 def predict():
-
     # get data from request form
     url = request.form['user_input']
+
+    if request.form['field_type'] == 'url':
+        pass
+
+    elif request.form['field_type'] == 'story':
+        pass
 
     # convert data from unicode to string
     data = get_data(url)
@@ -39,8 +42,10 @@ def predict():
     # make prediction based on new data
     pred = model.predict(X)[0]
 
-    # return a string format of that prediction to the html page
-    return str(pred), str(y_true)
+    # save the image to a file.png
+
+    # return string format of that prediction to the html page
+    return '' + str(pred) + ' ' + str(y_true)
 
 
 if __name__ == '__main__':

@@ -15,6 +15,11 @@ from scipy.spatial.distance import pdist, squareform
 from scipy.cluster.hierarchy import linkage, dendrogram
 from sklearn import (cluster, decomposition, ensemble, preprocessing)
 
+
+'''
+analysing the story of each campaigns using different models
+in vectorized story.
+'''
 with open('../data/vectorizer.pkl') as f:
     vectorizer = pickle.load(f)
 with open('../data/sparse_mat.pkl') as f:
@@ -33,7 +38,10 @@ X_train1, X_train2,y_train1, y_train2 = train_test_split(X_train, y_train, \
 
 def mnb_model():
     '''
-
+    fits the Multinomial Naive Bayes model.
+    Input : None
+    Output: MNB model, probabilities and accuracy score.
+    probabilities will be one of the feature in the main model.
     '''
 
     X_vect = vectorizer.transform(X_train1)
@@ -56,6 +64,10 @@ def kmeans():
 
 
 def scree_plot(num_components, pca):
+    '''
+    scree plot of each of the components of PCA.
+    Input: num_components: int,  pca: PCA model 
+    '''
     ind = np.arange(num_components)
     vals = pca.explained_variance_ratio_
     plt.figure(figsize=(10, 6), dpi=250)

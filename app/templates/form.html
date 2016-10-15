@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<form action="/predict" method='POST'>
+    <select name="field_type">
+      <option value="url">URL</option>
+      <option value="story">Story</option>
+    </select>
+    <input type="text" name="user_input" />
+    <input type="submit" />
+</form>
+{% endblock %}

@@ -63,6 +63,8 @@ def baseline_mat():
 def feature_mat():
     '''
     returns the feature matrix and labels
+    Input : None
+    Output: X: feature_matrix, y: array of true predictions, df: dataframe of feature_matrix
     '''
     with open('../data/vectorizer.pkl') as f:
         vectorizer = pickle.load(f)
@@ -78,7 +80,8 @@ def feature_mat():
     df = pd.concat((df, df2), axis =1)
 
     nmf_topics = nmf_model.transform(sparse_mat.toarray())
-    df3 = pd.DataFrame(nmf_topics)
+    col_name = ['nmf_topic_' + str(i) for i in xrange(0,10)]
+    df3 = pd.DataFrame(nmf_topics, columns = col_name)
     df = pd.concat((df, df3), axis = 1)
     df['mnb_probs'] = mnb_model.predict_proba(sparse_mat)[:,1]
 
@@ -87,9 +90,18 @@ def feature_mat():
                 'average_contribution']
 
     df.drop(drop_list, axis =1, inplace = True)
+
     X = df.values
 
-    return X, y
+    return X, y, df
+
+
+def save_df():
+    '''
+    takes the output df from feature_mat and saves it.
+    '''
+    X, y, df = feature_mat()
+    df.to_csv('../data/featured_data_final.csv', index = False)
 
 
 if __name__ == '__main__':
@@ -104,5 +116,6 @@ if __name__ == '__main__':
 
     print 'scores after featurizing....'
 
-    X, y = feature_mat()
+    X, y, df = feature_mat()
     compare_models(X, y, models)
+    # save_df()

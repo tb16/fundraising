@@ -40,7 +40,13 @@ def roc_curve(probabilities, labels):
 
 
 def plot_roc(probs, y_test, title, xlabel, ylabel):
-    # ROC
+    '''
+    plot and save the roc.
+    Input: probs: probabilities, array, y_tets: true response, array
+        title, xlabel and ylabels: string
+    Output: None
+    '''
+    # ROC curve
     tpr, fpr, thresholds = roc_curve(probs, y_test)
 
     plt.hold(True)
@@ -53,11 +59,16 @@ def plot_roc(probs, y_test, title, xlabel, ylabel):
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.title(title)
-
+    plt.savefig('../images/roc_plot.png')
     plt.show()
 
 
 def plot_confusion_matrix(model, X_test, y_test):
+    '''
+    plot and save confusion matrix.
+    '''
+
+    name = model.__repr__().split('(')[0]
 
     cm = confusion_matrix(y_test, model.predict(X_test))
 
@@ -69,9 +80,10 @@ def plot_confusion_matrix(model, X_test, y_test):
     plt.colorbar()
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
+    plt.savefig('../images/confusion_matrix_{}.png'.format(name))
     plt.show()
 
 
 if __name__=='__main__':
     plot_roc(probs, y_test, "ROC plot",
-         "False Positive Rate (1 - Specificity)", "True Positive Rate (Sensitivity, Recall)")
+         "False Positive Rate (1 - Specificity)", "True Positive Rate (Sensitivity)")

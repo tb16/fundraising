@@ -2,6 +2,7 @@
 import pymongo
 from collections import defaultdict
 import pandas as pd
+import numpy as np
 import re
 from datetime import datetime
 from itertools import izip
@@ -110,6 +111,15 @@ if __name__ == '__main__':
     # Number of shares
     df['shares'] = df.share.map(lambda x: float(str(x)[:-1])*1000 if str(x)[-1] == 'K' else float(x))
     df['people'] = df.status.map(num_people)
+    # remove first row which doesn't have story. and set the new index
+    df2 = df.iloc[1:, :]
+    # df2.reset_index(inplace = True)
     drop_list = ['_id','category_url','date','download_time', 'money', 'share', 'status']
-    df2 = df.drop(drop_list, axis = 1)
-    df2.to_csv('../data/preprocessed.csv', encoding='utf-8', index = False)
+    df2.drop(drop_list, axis = 1, inplace = True)
+    # Calculate percentage, average_contribution
+    df2['percentage'] = [round(x/y, 2) for (x, y) in izip(df2.raised, df2.goal)]
+    df2['average_contribution'] = [int(x/y) for (x, y) in izip(df2.raised, df2.people)]
+    # remove the outliers
+    df3 = df2[(df2.average_contribution > 0) & (df2.goal>500) & (df2.percentage < 3) \
+    & (df2.average_contribution < 5000)]
+    df3.to_csv('../data/preprocessed.csv', encoding='utf-8', index = False)

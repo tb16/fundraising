@@ -16,13 +16,11 @@ vi) Ratio of collected amount/target amount, number of shares and
 vi) Location, and start-date
 vii)Category
 
-Several machine learning modeling eg, logistic regression, decision trees, random forest, SVM, kNN, NMF are used to explain the 
+Several machine learning modeling eg, logistic regression, decision trees, random forest, SVM, kNN, NMF are used to explain the
 outcome of the campaign.
-  
+
   Natural Language Processing(NLP) on the story of each individual cases is used to identify the most prevalent issues, predict the similar success stories for lookup, and suggest the significant keywords.
-     
-      
-    
 
 
-    
+
+# Running the model:
