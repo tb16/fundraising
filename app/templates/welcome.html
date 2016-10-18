@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block body %}
+    <p>Welcome to fundraising prediction!!!<p>
+      <h1>Hello!</h1>
+      <p>Welcome to Fundraising Campaign</p>
+      <p>In this website you will know whether your campaign will be sufficiently funded
+        or not. Please enter the link of your website to know the predictions</p>
+
+        <form class="form-inline" action="/predict" method='POST'>
+          <div class="form-group">
+            <label>Your campaign's URL:</label>
+            <input class="input-url form-control" type="text" name="user_input" placeholder= "enter the url of your campaign"/>
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+
+  {% endblock %}

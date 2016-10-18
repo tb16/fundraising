@@ -113,6 +113,8 @@ if __name__ == '__main__':
     df['people'] = df.status.map(num_people)
     # remove first row which doesn't have story. and set the new index
     df2 = df.iloc[1:, :]
+    # changing to unicode:
+    df2.story = map(lambda x: unicode(x, errors = 'ignore'), df2.story)
     # df2.reset_index(inplace = True)
     drop_list = ['_id','category_url','date','download_time', 'money', 'share', 'status']
     df2.drop(drop_list, axis = 1, inplace = True)

@@ -56,9 +56,13 @@ def plot_roc(probs, y_test, title, xlabel, ylabel):
     xx = np.linspace(0, 1.0, 20)
     plt.plot(xx, xx, color='red')
 
-    plt.xlabel(xlabel)
-    plt.ylabel(ylabel)
-    plt.title(title)
+    plt.xlabel(xlabel, fontsize = 20, fontweight = 'bold')
+    plt.ylabel(ylabel, fontsize = 20, fontweight = 'bold')
+    plt.xticks(fontweight = 'bold')
+    plt.yticks(fontweight = 'bold')
+    plt.title(title, fontsize = 40, fontweight = 'bold')
+    plt.hlines([0,1],0, 1, linewidth=4, color="g")
+    plt.vlines([0,1],0, 1, linewidth=4, color="g")
     plt.savefig('../images/roc_plot.png')
     plt.show()
 
@@ -77,10 +81,10 @@ def plot_confusion_matrix(model, X_test, y_test):
     # Show confusion matrix in a separate window
     plt.matshow(cm)
     plt.title('Confusion matrix')
-    plt.colorbar()
+    # plt.colorbar()
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
-    plt.savefig('../images/confusion_matrix_{}.png'.format(name))
+    plt.savefig('../images/confusion_matrix.png')
     plt.show()
 
 

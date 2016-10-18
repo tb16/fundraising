@@ -75,7 +75,7 @@ def feature_mat():
         nmf_model = pickle.load(f)
     with open('../data/mnb_model.pkl') as f:
         mnb_model = pickle.load(f)
-    df = pd.read_csv('../data/featured_data.csv')
+    df = pd.read_csv('../data/featured_data1.csv')
     df2 = pd.get_dummies(df.category)
     df = pd.concat((df, df2), axis =1)
 

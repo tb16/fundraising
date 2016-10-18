@@ -32,12 +32,14 @@ def gridsearch_gradboost(X, y):
     '''
     gbc = GradientBoostingClassifier()
     param_grid = {
-              'learning_rate': [0.1, 0.05, 0.03, 0.02, 0.1],
-           'max_depth': [2, 4, 5, 6, 7],
-           'max_features': [1, 0.5, 0.4, 0.3, 0.1],
-           'n_estimators': [100, 500, 1000]
+              'learning_rate': [0.05, 0.03, 0.02],
+           'max_depth': [2, 4, 6],
+           'max_features': [1, 0.5, 0.3],
+           'n_estimators': [100, 150]
              }
+    print 'gridsearch gradboost started.....'
     gs_cv = GridSearchCV(gbc, param_grid, scoring = 'accuracy').fit(X,y)
+    print gs_cv.best_params_
     return gs_cv.best_params_
 
 
@@ -79,7 +81,7 @@ def gridsearch(X, y):
 def pickle_model(X, y):
     '''
     saving pickle file for models RandomForest and GradientBoosting
-    Input: X: feature matrix, y: array of output value 
+    Input: X: feature matrix, y: array of output value
     '''
     rf = RandomForestClassifier(max_features= 40, n_estimators= 100, max_depth= 5, \
     min_samples_leaf= 5, n_jobs = -1).fit(X, y)
@@ -93,8 +95,9 @@ def pickle_model(X, y):
 
 
 if __name__ == '__main__':
-    X, y = feature_mat()
+    X, y, _ = feature_mat()
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1234)
     X_train1, X_train2,y_train1, y_train2 = train_test_split(X_train, y_train, \
     test_size = 0.8, random_state = 1234)
+    # gridsearch_gradboost(X_train2, y_train2)
     pickle_model(X_train2, y_train2)

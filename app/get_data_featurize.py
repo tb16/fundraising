@@ -5,11 +5,34 @@ import bs4
 import pandas as pd
 import cPickle as pickle
 from datetime import datetime
-from category import category_list
+
+category_list = [\
+'Medical','Medical-Illness-Healing',
+'Memorials',
+'Education','Education-Schools-Learning',
+'Emergencies',
+'Charity','Non-Profits-Charities',
+'Sports','Sports-Teams-Clubs',
+'Competitions','Competitions-Pageants',
+'Animals','Animals-Pets',
+'Volunteer','Volunteer-Service',
+'Creative','Creative-Arts-Music-Film',
+'Community','Community-Neighbors',
+'Business','Business-Entrepreneurs',
+'Events','Celebrations-Special-Events',
+'Wishes','Dreams-Hopes-Wishes',
+'Faith','Missions-Faith-Church',
+'Travel','Travel-Adventure',
+'Family','Babies-Kids-Family',
+'Accidents-Personal-Crisis',
+'Weddings-Honeymoons',
+'Other',
+]
 
 
 
-url = 'https://www.gofundme.com/finleysmedicalfund?ssid=768730237&pos=3'
+
+url = 'https://www.gofundme.com/2t9bhces'
 _user_agent = ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 '
                '(KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36')
 
@@ -23,6 +46,34 @@ with open('../data/mnb_model.pkl') as f:
     mnb_model = pickle.load(f)
 
 
+def download(url, *a, **kw):
+    '''
+    download and returns the html parsed beautifulsoup
+    '''
+    _user_agent = ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 '
+               '(KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36')
+    kw.setdefault('headers', {})['User-Agent'] = _user_agent
+    return bs4.BeautifulSoup(requests.get(url, *a, **kw).text, 'html.parser')
+
+
+def search_facebook(title):
+    '''
+    url search for fb friends gofund me website given a title
+    '''
+    search_url = 'https://www.gofundme.com/mvc.php?'
+    soup = download(search_url, params={'term' : title, 'route': 'search'})
+    for tile in soup.select('.search_tile'):
+        try:
+            link = 'https:'+tile.select('.name')[0]['href']
+            if tile.select('.title')[0].text.strip() == title:
+                friends = tile.select('.fb_count')[0].text
+                num_friend = get_number(friends.replace('Facebook Friends', '').strip())
+                return num_friend
+
+        except:
+            continue
+    return 700.
+
 
 
 def get_number(s):
@@ -33,6 +84,15 @@ def get_number(s):
     return round(s*factor, 2)
 
 
+def get_goal(s):
+    factor = 1
+    if 'k' in s or 'K' in s:
+        factor = 1000
+    if 'm' in s or 'M' in s:
+        factor = 1000000
+    s = float(''.join(c for c in s if c.isdigit() or c == '.'))
+    return round(s*factor, 2)
+
 def get_data(url):
 
     soup = bs4.BeautifulSoup(requests.get(url, _user_agent).text, 'html.parser')
@@ -42,7 +102,7 @@ def get_data(url):
         raised = get_number(raised[0].text)
     goal = soup.select('.goal .smaller')[0].text
     goal = re.findall(r'of (.*?) goal', goal)
-    goal = get_number(goal[0])
+    goal = get_goal(goal[0])
     # title and story
     title = soup.find(class_='campaign-title').text.strip()
     story =  soup.find(class_='co-story').text.strip()
@@ -84,21 +144,28 @@ def get_data(url):
     date_recorded = date_struct_recorded.strftime('%Y-%m-%d')
     days = (date_struct_recorded - date_struct_created).days
     # friends
-    friends = 500
+    friends = search_facebook(title)
     # data = [category, friends, name, place, story, title, date_created, \
     # date_recorded, days, raised, goal, shares, people]
     df['category'] = category
-    df['friends'] = friends
+    df['friends'] = int(friends)
     df['name'] = name
     df['place'] = place
-    df['story'] = story
-    df['title'] = title
+    # unicode 'story'
+    x = story.encode("utf-8")
+    y = unicode(x, errors = 'ignore')
+    df['story'] =y
+    # df['story'] = unicode(story, errors = 'ignore')
+    # unicode titlex = story.encode("utf-8")
+    x1 = title.encode("utf-8")
+    y1 = unicode(x1, errors = 'ignore')
+    df['title'] = y1
     df['date_created'] = date_created
     df['date_recorded'] = date_recorded
     df['days'] = days
     df['raised'] = raised
     df['goal'] = goal
-    df['shares'] =shares
+    df['shares'] = int(shares)
     df['people'] = people
 
 
@@ -111,7 +178,7 @@ def get_data(url):
     df['word_count_title'] = len(title.split())
     df['word_count_story'] = len(story.split())
     df['sentence_count_story'] = len(story.split('.'))
-    df['percentage'] = raised/goal
+    df['percentage'] = round(raised/goal, 2)
     df['average_contribution'] = raised/people
 
     return df
@@ -119,8 +186,7 @@ def get_data(url):
 
 def featurizing(df):
     # category split
-    category_lst = category_list()
-    for cat in category_lst:
+    for cat in sorted(category_list):
         if cat == df.category[0]:
             df[cat] = 1
         else:

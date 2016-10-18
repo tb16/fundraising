@@ -1,5 +1,26 @@
 {% extends "layout.html" %}
 
-{% block content %}
-<p>Hi, my name is Tek, nice to meet you. This is my project.</p>
+{% block body %}
+<h1>Hello!</h1>
+<p>Welcome to Fundraising Campaign</p>
+<p>This website let you know whether your campaign will be sufficiently funded
+  or not.<br> Please enter the link of your website to know the predictions</p>
+  <br><br>
+  <p> Here, success means 'raising the amount of at least 50% of your target.'</p>
+  <br><br>
+
+  <p>Please enter your url below for the detailed analysis of campaigns similar to yours</p>
+
+<form class="form-inline" action="/predict" method='POST'>
+  <div class="form-group">
+    <label>Your campaign's URL:</label>
+    <input class="input-url form-control" type="text" name="user_input" placeholder= "enter the url of your campaign"/>
+  </div>
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
+
+
+
 {% endblock %}
+
+<img src = {{ url_for('static', filename = 'images/intro.png') }} class="img-responsive pull-right" alt="Responsive image" width="500" height="500">

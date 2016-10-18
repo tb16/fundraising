@@ -76,7 +76,7 @@ def plot_roc_confusion(model, X_test, y_test):
     y_pred = rf.predict(X_test)
     probs = rf.predict_proba(X_test)[:,1]
     plot_roc(probs, y_test, "ROC plot",\
-         "False Positive Rate (1 - Specificity)", "True Positive Rate (Sensitivity, Recall)")
+         "False Positive Rate", "True Positive Rate")
     plot_confusion_matrix(model, X_test, y_test)
 
 
@@ -87,8 +87,8 @@ if __name__ == '__main__':
 
     X, y, df = feature_mat()
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1234)
-    print 'rf: ',show_scores(rf, X_test, y_test)
-    print 'gbc: ',show_scores(gbc, X_test, y_test)
-    # plot_roc_confusion(gbc, X_test, y_test)
+    # print 'rf: ',show_scores(rf, X_test, y_test)
+    # print 'gbc: ',show_scores(gbc, X_test, y_test)
+    plot_roc_confusion(gbc, X_test, y_test)
     # vector = sparse_mat[0].toarray()
     # print similar_campaign(vector, vectorizer, sparse_mat)

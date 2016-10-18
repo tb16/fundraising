@@ -1,14 +1,52 @@
-<!doctype html>
-<html>
-  <head>
-      <title>GoFundMe tool</title>
-  </head>
-  <body>
-    <a href='/'>Home</a>
-    <a href='/form'>Submit a URL</a>
-    <hr>
-    
-    {% block content %}
-    {% endblock %}
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Fundraising</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+    body {
+      width: 1000px;
+      margin: 2rem auto;
+      background-color: #00FFFF;
+    }
+    input.input-url {
+      width: 300px !important;
+    }
+    h1.page-title {
+      text-align: center;
+      font-size: 300%;
+      font-weight: FF00AA;
+    }
+    .container{
+      font-size: 150%;
+    }
+    .img-responsive{
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="page-title">Welcome to fundraising campaign prediction!!!</h1>
+
+  <div class="container">
+    <div class="row">
+      <ul class="nav nav-tabs">
+        <li role="presentation" ><a href ="/">Home</a></li>
+        <li role="presentation" ><a href="/welcome">About</a></li>
+        <li role="presentation"><a href = "/tools">Prediction methods and tools</a></li>
+      <!---  <li role="presentation"><a href ="/predict">Predictions</a></li>-->
+        <li role="presentation"><a href ="/contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <br>
+
+  {% block body %}
+  {% endblock %}
+</body>
 </html>

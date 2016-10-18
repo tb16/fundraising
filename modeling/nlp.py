@@ -66,7 +66,7 @@ def kmeans():
 def scree_plot(num_components, pca):
     '''
     scree plot of each of the components of PCA.
-    Input: num_components: int,  pca: PCA model 
+    Input: num_components: int,  pca: PCA model
     '''
     ind = np.arange(num_components)
     vals = pca.explained_variance_ratio_
@@ -112,13 +112,13 @@ def pca_model(vector):
     return pca, ss
 
 
-def nmf_model(n_topics = 10):
+def nmf_model(doc_vect, n_topics = 10):
     '''
     Takes the vectorized document and returns the topic label.
     '''
     nmf = decomposition.NMF(n_components=n_topics, random_state=1,
               alpha=.1, l1_ratio=.5).fit(doc_vect)
-
+    print 'nmf done'
     topics = nmf.transform(doc_vect).argsort()
     topic_labels = [topic[-1] for topic in topics]
     return nmf, topic_labels
@@ -134,6 +134,7 @@ def print_top_words(model, feature_names, n_top_words = 20):
 
 if __name__ == '__main__':
     doc_vect = sparse_mat
+    print 'nmf started...'
     nmf_model, topic_labels = nmf_model(doc_vect)
     print  'nmf done'
     mnb_model, probs, score = mnb_model()

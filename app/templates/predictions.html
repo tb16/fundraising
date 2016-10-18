@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+
+
+    <h1>According to your current stats, probability of succeeding is {{prob}}%.</h1>
+    <h3>Here are the similar camapign recommendations for you.</h3>
+    <br>
+    <p>These recommendations are based on your story.  </p><br>
+
+    <table class = "table table-bordered">
+      <tr>
+        <th>Category</th>
+        <th>Days</th>
+        <th>Title</th>
+
+        <th>Facebook friends</th>
+        <th>Shares</th>
+        <th>Goal</th>
+        <th>Percentage</th>
+        <th>Keywords</th>
+        <th>URL</th>
+      </tr>
+      {% for campaign in similar %}
+        <tr>
+          <td>{{ campaign.category }}</td>
+          <td>{{ campaign.days }}</td>
+          <th>{{ campaign.title}}</th>
+
+          <th>{{campaign.friends}}</th>
+          <th>{{campaign.shares|int}}</th>
+          <th>{{campaign.goal}}</th>
+          <th>{{campaign.percentage}}</th>
+          <th>{{campaign.keywords}}</th>
+          <th>{{campaign.url}}</th>
+        </tr>
+      {% endfor %}
+      <tr> <td>And your stat is..</td></tr>
+      <tr>
+        <td>{{ data[0].category }}</td>
+        <td>{{ data[0].days }}</td>
+        <th>{{ data[0].title}}</th>
+
+        <th>{{data[0].friends}}</th>
+        <th>{{data[0].shares|int}}</th>
+        <th>{{data[0].goal}}</th>
+        <th>{{data[0].percentage}}</th>
+
+      </tr>
+    </table>
+
+{% endblock %}
+
+'category', 'days','title', 'story', \
+'friends','shares', 'goal', 'percentage', 'keywords', 'url'
